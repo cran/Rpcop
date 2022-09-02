@@ -1,0 +1,5 @@
+useDynLib(Rpcop)
+importFrom(Rcpp, evalCpp)
+importFrom("graphics", "lines")
+import(princurve)
+exportPattern("^[[:alpha:]]+")
