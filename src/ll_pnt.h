@@ -1,32 +1,58 @@
-class ll_pnt{
+#include <cmath>
+#include <cstdlib>
 
-	private :
+template <typename T> class ll_pnt {
 
-		typedef struct node{
-			void *info;
-			node  *seg;
-		} node;
+private:
+  typedef struct node {
+    T *info;
+    node *seg;
+  } node;
 
-		node *Topleft;
-		node *newTopleft;
-		node *Topright;
+  node *Topleft;
+  node *newTopleft;
+  node *Topright;
 
-	public :
+public:
+  ll_pnt() {
+    Topleft = new node();
+    Topright = Topleft;
+  }
 
-		// constructoras
-		ll_pnt();
-		~ll_pnt();
-		void add(void *info);
-		void addrev(void *info);
-		// consultoras
+  ~ll_pnt() {
+    auto act_pt = Topleft;
+    while (act_pt) {
+      auto aux_pt = act_pt->seg;
+      delete act_pt->info;
+      delete act_pt;
+      act_pt = aux_pt;
+    }
+  }
 
-		void resetpt(void **pt);
-		void *noend(void *pt);
-		void *llpt(void *pt);
-		void advpt(void **pt);
+  void add(T *info) {
+    Topright->info = info;
+    Topright->seg = new node();
+    Topright = Topright->seg;
+  }
 
-		// modificadoras
+  void addrev(T *info) {
+    newTopleft = new node;
+    newTopleft->info = info;
+    newTopleft->seg = Topleft;
+    Topleft = newTopleft;
+  }
 
-		void modpt(void *pt,void *inf);
+  node* resetpt() { return Topleft; }
 
+  node *noend(node *pt) {
+    return (pt->seg->seg); // a l'ultim elem. contindr info, s'haur
+                                     // de tractar apart.
+    // si pt->seg == NULL el camp info de pt estara buit
+  }
+
+  T *llpt(node *pt) { return (pt->info); }
+
+  void advpt(node **pt) { *pt = (*pt)->seg; }
+
+  void modpt(node *pt, T *info) { pt->info = info; }
 };

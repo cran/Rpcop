@@ -4,31 +4,25 @@ extern "C" {
 
 #include "pila.h"
 
-pila::pila(){top = NULL;}
+pila::pila() { top = NULL; }
 
-void pila::apilar (void *pt){
-	n_top = (node *)malloc(sizeof(node));
+void pila::apilar(void *pt) {
+  n_top = new node;
 
-	n_top->pt = pt;
-	n_top->seg = top;
-	top = n_top;
+  n_top->pt = pt;
+  n_top->seg = top;
+  top = n_top;
 }
 
-void *pila::desapilar(){
-	void  *tp=top->pt;              // no comprovem si la pila es buida, es suposa un control extern
+void *pila::desapilar() {
+  void *tp =
+      top->pt; // no comprovem si la pila es buida, es suposa un control extern
 
-	n_top = top->seg;
-	free(top);
-	top = n_top;
+  n_top = top->seg;
+  delete top;
+  top = n_top;
 
-	return tp;
+  return tp;
 }
 
-int pila::pila_buida(){
-	return !top;
-}
-
-
-
-
-
+int pila::pila_buida() { return !top; }

@@ -1,34 +1,47 @@
-class ll_flt{
+struct node {
+    float info;
+    node *seg;
+};
 
-	private :
+class ll_flt {
+private:
 
-		typedef struct node{
-			float info;
-			node  *seg;
-		} node;
+  node *Topleft;
+  node *Topright;
 
-		node *Topleft;
-		node *newTopleft;
-		node *Topright;
+public:
+    ll_flt() {
+        Topleft = new node;
+        Topright = Topleft;
+    }
 
-	public :
+    ~ll_flt() {
+        node *act_pt, *aux_pt;
 
-		// constructoras
-		ll_flt();
-		~ll_flt();
-		void add(float info);
-		void addrev(float info);
+        act_pt = Topleft;
+        while (act_pt) {
+            aux_pt = act_pt->seg;
+            delete act_pt;
+            act_pt = aux_pt;
+        }
+    }
 
+    void add(float info) {
+        Topright->info = info;
+        Topright->seg = new node();
+        Topright = Topright->seg;
+    }
 
-		// consultoras
+    node* resetpt() { return Topleft; }
 
-		void resetpt(void **pt);
-		void *noend(void *pt);
-		float llpt(void *pt);
-		void advpt(void **pt);
+    node *noend(node *pt) {
+        return pt->seg; // a l'ultim sera NULL perque creem amb calloc.
+        // si pt->seg == NULL el camp info de pt estara buit
+    }
 
-		// modificadoras
+    float llpt(node *pt) { return pt->info; }
 
-		void modpt(void *pt,float inf);
+    void advpt(node **pt) { *pt = (*pt)->seg; }
 
+    void modpt(node *pt, float info) { (pt)->info = info; }
 };

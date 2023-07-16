@@ -1,8 +1,8 @@
 Package: Rpcop
 Type: Package
 Title: Principal Curves of Oriented Points
-Version: 1.0
-Date: 2022-09-01
+Version: 1.1
+Date: 2023-07-15
 Authors@R: 
     c(person(given = "Pedro",
              family = "Delicado",
@@ -31,7 +31,7 @@ LinkingTo: Rcpp
 Depends: princurve
 RoxygenNote: 7.1.2
 NeedsCompilation: yes
-Packaged: 2022-09-01 14:41:53 UTC; kmfrick
+Packaged: 2023-07-15 13:15:11 UTC; kmfrick
 Author: Pedro Delicado [aut] (C++ original,
     https://www-eio.upc.es/~delicado/PCOP/index.html),
   Mario Huerta [aut] (C++ original),
@@ -41,4 +41,4 @@ Author: Pedro Delicado [aut] (C++ original,
     and eigenvectors of a real symmetric matrix)
 Maintainer: Kevin Michael Frick <kmfrick98@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-09-02 07:50:06 UTC
+Date/Publication: 2023-07-16 17:20:13 UTC
