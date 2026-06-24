@@ -6,6 +6,7 @@ extern "C" {
 ll_q::ll_q(int np) {
   npunts = np;
   Topleft = new node(); // does not contain info
+  Topleft->seg = nullptr;
 }
 
 ll_q::~ll_q() {
@@ -36,8 +37,8 @@ float ll_q::dmax() {
   int limite, i;
   node *nd;
 
-  limite = npunts * 0.00; // a un dmax ms petit -> calculs ms rapids, pero un
-                          // cluster ms restrictiu.
+  limite = npunts * 0.00; // smaller dmax -> faster calculations, but a more
+                          // restrictive cluster.
 
   nd = Topleft->seg;
   for (i = 1; i < limite; i++) {

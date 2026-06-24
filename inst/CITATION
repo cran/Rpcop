@@ -1,0 +1,33 @@
+bibentry(
+  bibtype = "Manual",
+  title = "Rpcop: Principal Curves of Oriented Points",
+  author = person("Kevin Michael", "Frick"),
+  year = "2026",
+  note = "R package version 1.2.3",
+  url = "https://github.com/kmfrick/Rpcop"
+)
+
+bibentry(
+  bibtype = "Article",
+  title = "Principal Curves of Oriented Points: theoretical and computational improvements",
+  author = c(
+    person("Pedro", "Delicado"),
+    person("Mario", "Huerta")
+  ),
+  journal = "Computational Statistics",
+  year = "2003",
+  volume = "18",
+  pages = "293--315",
+  doi = "10.1007/s001800300145"
+)
+
+bibentry(
+  bibtype = "Article",
+  title = "Another Look at Principal Curves and Surfaces",
+  author = person("Pedro", "Delicado"),
+  journal = "Journal of Multivariate Analysis",
+  year = "2001",
+  volume = "77",
+  pages = "84--116",
+  doi = "10.1006/jmva.2000.1917"
+)

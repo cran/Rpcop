@@ -1,5 +1,5 @@
-// contiene la dimension del espacio original, la matriz y el xo  necesaria para
-// transformar los puntos al sistema de coordenadas original
+// Contains the original-space dimension, the matrix, and the xo needed to
+// transform the points to the original coordinate system
 
 extern "C" {
 #include <stdlib.h>
@@ -26,8 +26,8 @@ float *M_a::aplicar_Ma_punt(float *punt) {
   float *p2;
   float *p3;
 
-  p2 = Mxv(Ma, punt - profundidad); // habremos creado todos los puntos de
-                                    // Dim+profundidad con las 1eras pos. =0
+  p2 = Mxv(Ma, punt - profundidad); // points are represented in Dim+depth form
+                                    // with leading depth coordinates set to 0
   p3 = sum_v(p2, xa);
 
   delete[] p2;
@@ -37,9 +37,9 @@ float *M_a::aplicar_Ma_punt(float *punt) {
 float *M_a::aplicar_Ma_vect(float *vect) {
   float *v3;
 
-  v3 = Mxv(Ma, vect - profundidad); // la profundidad sera maximo 2
+  v3 = Mxv(Ma, vect - profundidad); // vectors are stored with depth offset
 
-  return v3; // vector en coordenades originals
+  return v3; // vector in original coordinates
 }
 
 M_a *M_a::donar_M_a(float **Mbopt, float *xo) {
@@ -47,7 +47,7 @@ M_a *M_a::donar_M_a(float **Mbopt, float *xo) {
   float **n_Ma, **n_Ma2;
   float *n_xa;
 
-  /* new prof */
+  /* new depth */
   n_prof = profundidad + 1;
 
   /* new Ma */
@@ -72,22 +72,28 @@ M_a *M_a::donar_M_a(float **Mbopt, float *xo) {
   n_xa = aplicar_Ma_punt(xo);
 
   return new M_a(Dim, n_prof, n_Ma2,
-                 n_xa); // li pasem la profunditat del subspai
+                 n_xa); // pass updated subspace depth
 }
 
-//////Private
-//// vect ops
+// private
+// vector ops
 
 float *M_a::Mxv(float **M1, float *v) {
-  // vxM, trabajamos con vectores fila.
+  // vxM, we work with row vectors.
   int i, j;
   float sum;
-  float *v3 = new float[Dim];
+  float *v3 = new float[Dim]();
+
+  if (!M1 || !v) {
+    return v3;
+  }
 
   for (i = 0; i < Dim; i++) {
     sum = 0;
     for (j = 0; j < Dim; j++) {
-      sum += v[j] * M1[j][i];
+      if (M1[j]) {
+        sum += v[j] * M1[j][i];
+      }
     }
     v3[i] = sum;
   }
@@ -95,7 +101,7 @@ float *M_a::Mxv(float **M1, float *v) {
 }
 
 float **M_a::MxM(float **M1, float **M2) {
-  // vxM, trabajos con vectores fila.
+  // vxM, works with row vectors.
   int i, ii, j;
   float sum;
   float **M3;
@@ -103,13 +109,19 @@ float **M_a::MxM(float **M1, float **M2) {
   M3 = new float *[Dim];
 
   for (i = 0; i < Dim; i++)
-    M3[i] = new float[Dim];
+    M3[i] = new float[Dim]();
+
+  if (!M1 || !M2) {
+    return M3;
+  }
 
   for (i = 0; i < Dim; i++) {
     for (ii = 0; ii < Dim; ii++) {
       sum = 0;
       for (j = 0; j < Dim; j++) {
-        sum += M1[i][j] * M2[j][ii];
+        float lhs = M1[i] ? M1[i][j] : 0.0f;
+        float rhs = M2[j] ? M2[j][ii] : 0.0f;
+        sum += lhs * rhs;
       }
       M3[i][ii] = sum;
     }
@@ -122,6 +134,14 @@ float *M_a::sum_v(float *v1, float *v2) {
   float *v3;
 
   v3 = new float[Dim];
+  if (!v1 || !v2) {
+    for (i = 0; i < Dim; i++) {
+      float lhs = v1 ? v1[i] : 0.0f;
+      float rhs = v2 ? v2[i] : 0.0f;
+      v3[i] = lhs + rhs;
+    }
+    return v3;
+  }
   for (i = 0; i < Dim; i++)
     v3[i] = v1[i] + v2[i];
   return v3;

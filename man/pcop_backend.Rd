@@ -2,20 +2,21 @@
 % Please edit documentation in R/RcppExports.R
 \name{pcop_backend}
 \alias{pcop_backend}
-\title{Computes a principal curve as defined in Delicado (2001). DO NOT use this function unless you know what you are doing. Use `pcop()` instead.}
+\title{pcop_backend}
 \usage{
 pcop_backend(x, c_d, c_h)
 }
 \arguments{
-\item{x}{See `pcop()`}
+\item{x}{Numeric matrix of input points; see \code{pcop()}.}
 
-\item{c_d}{See `pcop()`}
+\item{c_d}{Distance scaling parameter passed from \code{pcop()}.}
 
-\item{c_h}{See `pcop()`}
+\item{c_h}{Bandwidth scaling parameter passed from \code{pcop()}.}
 }
 \value{
-A numeric matrix to be parsed by `pcop()`.
+Numeric matrix consumed by \code{pcop()}.
 }
 \description{
-Computes a principal curve as defined in Delicado (2001). DO NOT use this function unless you know what you are doing. Use `pcop()` instead.
+Internal backend used by \code{pcop()} to compute the principal curve defined in Delicado and Huerta (2003) \doi{10.1007/s001800300145}.
 }
+\keyword{internal}

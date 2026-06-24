@@ -2,39 +2,56 @@
 % Please edit documentation in R/Rpcop.R
 \name{pcop}
 \alias{pcop}
-\title{pcop}
+\title{Principal Curve of Oriented Points}
 \usage{
 pcop(x, Ch = 1.5, Cd = 0.3, plot.true = FALSE, ...)
 }
 \arguments{
-\item{x}{a matrix of n points in dimension p}
+\item{x}{A finite numeric matrix or data frame of \eqn{n} points in dimension
+\eqn{p}. Missing and infinite values are rejected.}
 
-\item{Ch}{The smoothing parameter h is C_H times the value given by the normal reference rule.
-Default value 1.5. Constraints 0.5 <= C_H <=  1.5}
+\item{Ch}{The smoothing parameter \eqn{h} is \eqn{C_H} times the value given by
+the normal reference rule. Default value \eqn{1.5}. Constraints
+\eqn{0.5 \le C_H \le 1.5}.}
 
-\item{Cd}{The distance between two consecutive principal oriented points in a PCOP is about C_D times
-the value of the smoothing parameter h.
-Default value 0.3. Constraints 0.25 <= C_D <= .5}
+\item{Cd}{The distance between two consecutive principal oriented points in a
+PCOP is about \eqn{C_D} times the value of the smoothing parameter
+\eqn{h}. Default value \eqn{0.3}. Constraints \eqn{0.25 \le C_D \le 0.5}.}
 
-\item{plot.true}{if TRUE, the function produces a plot}
+\item{plot.true}{If \code{TRUE}, produce a two-dimensional plot of the
+resulting curve. Plotting requires at least two columns in \code{x}.}
 
-\item{...}{Additional parameters passed to function "lines"}
+\item{...}{Additional parameters passed to \code{lines}.}
 }
 \value{
-A list with two data frames. One contains a list with the following names:
-'param': Value of the parameter t such the the principal oriented point is PCOP(t).
-'dens': Density estimation for the random variable induced over the PCOP at t.
-'span': proportion of original data involved in the determination of the principal oriented point.
-'orth.var': Variance over the hyperplane orthogonal to the PCOP at the principal oriented point.
-'pop': a p-dimensional array. The p coordinates of the principal oriented point.
-'pr.dir': a p-dimensional array. The p coordinates of the principal direction for the principal oriented point.
-For the second, look at the package princurve.
+A list with two elements:
+\describe{
+  \item{pcop.f1}{Data frame storing the principal curve of oriented points in
+    the original format, with columns \code{param}, \code{dens},
+    \code{span}, \code{orth.var}, \code{pop1}, \code{pop2}, \ldots,
+    \code{pr.dir1}, \code{pr.dir2}, \ldots}
+  \item{pcop.f2}{List conforming to the format used in \pkg{princurve}; see that
+    package for details.}
+  \item{parameters}{List of algorithm parameters used for the fit.}
+  \item{input_names}{Input row and column names, if present. Other input
+    attributes are not used by the algorithm and are not propagated.}
+  \item{call}{Matched function call.}
+}
 }
 \description{
-Computes a principal curve of oriented points as defined in Delicado (2001).
+Computes a principal curve as defined in Delicado and Huerta (2003)
+\doi{10.1007/s001800300145}.
 }
 \examples{
-x <- runif(100,-1,1)
+n <- 500
+p <- 3
+x <- matrix(rnorm(n * p), ncol = p) \%*\% diag(p:1)
+pcop(x, plot.true = FALSE)
+
+x <- runif(100, -1, 1)
 x <- cbind(x, x ^ 2 + rnorm(100, sd = 0.1))
-pcop(x, plot.true=TRUE, lwd=4, col=2)
+pcop(x, plot.true = FALSE)
+if (interactive()) {
+  pcop(x, plot.true = TRUE, lwd = 4, col = 2)
+}
 }

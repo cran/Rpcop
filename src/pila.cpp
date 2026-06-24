@@ -6,6 +6,14 @@ extern "C" {
 
 pila::pila() { top = NULL; }
 
+pila::~pila() {
+  while (top) {
+    n_top = top->seg;
+    delete top;
+    top = n_top;
+  }
+}
+
 void pila::apilar(void *pt) {
   n_top = new node;
 
@@ -16,7 +24,7 @@ void pila::apilar(void *pt) {
 
 void *pila::desapilar() {
   void *tp =
-      top->pt; // no comprovem si la pila es buida, es suposa un control extern
+      top->pt; // Caller is expected to check that the stack is non-empty.
 
   n_top = top->seg;
   delete top;

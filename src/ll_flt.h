@@ -1,47 +1,47 @@
 struct node {
-    float info;
-    node *seg;
+  float info;
+  node *seg;
 };
 
 class ll_flt {
 private:
-
   node *Topleft;
   node *Topright;
 
 public:
-    ll_flt() {
-        Topleft = new node;
-        Topright = Topleft;
+  ll_flt() {
+    Topleft = new node();
+    Topleft->seg = nullptr;
+    Topright = Topleft;
+  }
+
+  ~ll_flt() {
+    node *act_pt, *aux_pt;
+
+    act_pt = Topleft;
+    while (act_pt) {
+      aux_pt = act_pt->seg;
+      delete act_pt;
+      act_pt = aux_pt;
     }
+  }
 
-    ~ll_flt() {
-        node *act_pt, *aux_pt;
+  void add(float info) {
+    Topright->info = info;
+    Topright->seg = new node();
+    Topright = Topright->seg;
+  }
 
-        act_pt = Topleft;
-        while (act_pt) {
-            aux_pt = act_pt->seg;
-            delete act_pt;
-            act_pt = aux_pt;
-        }
-    }
+  node *resetpt() { return Topleft; }
 
-    void add(float info) {
-        Topright->info = info;
-        Topright->seg = new node();
-        Topright = Topright->seg;
-    }
+  node *noend(node *pt) {
+    return pt->seg; // the final sentinel has seg == NULL
+                    // and does not carry a valid info value
+  }
 
-    node* resetpt() { return Topleft; }
+  float llpt(node *pt) { return pt->info; }
 
-    node *noend(node *pt) {
-        return pt->seg; // a l'ultim sera NULL perque creem amb calloc.
-        // si pt->seg == NULL el camp info de pt estara buit
-    }
+  void advpt(node **pt) { *pt = (*pt)->seg; }
 
-    float llpt(node *pt) { return pt->info; }
-
-    void advpt(node **pt) { *pt = (*pt)->seg; }
-
-    void modpt(node *pt, float info) { (pt)->info = info; }
+  void modpt(node *pt, float info) { (pt)->info = info; }
 };

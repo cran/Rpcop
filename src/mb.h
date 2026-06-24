@@ -8,7 +8,7 @@ private:
   float **MId;
   float **MInv;
 
-  // vect ops
+  // vector ops
 
   float **inv(float **M);
   float *Mxv(float **M, float *v);
@@ -20,28 +20,25 @@ private:
   float *norma_v(float *v);
 
 public:
-  // constructoras
+  // constructors
 
-  M_b(int Dim, float *b); // reusamos el vector b pasado por parametro.
+  M_b(int Dim, float *b); // we reuse the vector b passed by parameter.
   M_b(int Dim, float **n_M, float *n_xo);
   ~M_b();
 
   M_b *girar(int eix,
-             float angle); // s'aplicara un gir a Mb per l'eix o dimensio donat.
-                           // L'angle d'aquests girs sera el que diferenci un
-                           // objecte matriu resultant d'un altre
-  M_b *replicar();         // far una copia de la M_b;
-  void calcular_la_inversa(); // calculamos la inversa  realizados los giros de
-                              // Mb y antes de aplicarla sobre los puntos. Si el
-                              // Mb resulta optimo se calculara mas de 1 vez,
-                              // sino una sola vez
-  M_a *donar_M_a(M_a *Ma);    // Ma es la matriu que els espais inferiors
-                              // necesitaran(una per cada subspai)
-  // per pasar els punts a les coordenades originals
+             float angle); // apply a rotation to Mb for the given axis/dimension.
+                           // rotation angle is what differentiates candidate
+                           // matrices from one another.
+  M_b *replicar();         // create a copy of M_b.
+  void calcular_la_inversa(); // compute the inverse after Mb rotations and before
+                              // applying Mb to points. If Mb is optimal this may
+                              // be computed more than once, otherwise only once.
+  M_a *donar_M_a(M_a *Ma);    // Ma is the matrix lower-dimensional subspaces need
+                              // to map points back to original coordinates
   void rebre_xo(float *punt);
   float *
-  aplicar(float *punt); // aplica Mb al punt y dona el punt per l'espai inferior
-  float *desaplicar(float *punt); // extraer para las coordenadas originales. op
-                                  // inversa a aplicar
+  aplicar(float *punt); // apply Mb to a point and return lower-space coordinates
+  float *desaplicar(float *punt); // map back to original coordinates (inverse of aplicar)
   float *donar_bopt();
 };

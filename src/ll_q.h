@@ -4,7 +4,7 @@ extern "C" {
 #include <stdlib.h>
 }
 
-#define CQ 3 // constante para definir dmax a prtir del rango intercuartilico
+#define CQ 3 // constant to define dmax from the interquartile range
 
 class ll_q {
 private:
@@ -18,12 +18,12 @@ private:
   node *Topleft;
 
 public:
-  // constructoras
+  // constructors
   ll_q(int np);
   ~ll_q();
   void add_ord(float info);
 
-  // consultoras
+  // accessors
 
   float dmax();
 };
